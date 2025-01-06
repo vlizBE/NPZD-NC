@@ -5,11 +5,14 @@ This model is developed under **Blue-Cloud2026 VLab 3: Carbon-Plankton Dynamics*
 ## Table of Contents
 - [Overview](#overview)
 - [Features](#features)
+- [Software](#Software)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Model Details](#model-details)
 - [Contributing](#contributing)
+- [Scientific output](#Scientific-output)
 - [License](#license)
+- [Acknowledgements](#Acknowledgements)
 
 ## Overview
 The **Blue-Cloud2026 VLab 3 Carbon-Plankton Dynamic** project models interactions between nutrients, phytoplankton, zooplankton, and detritus in marine environments. The NPZD model captures essential ecological processes, providing insights into carbon cycling and plankton population dynamics.
@@ -20,199 +23,78 @@ The **Blue-Cloud2026 VLab 3 Carbon-Plankton Dynamic** project models interaction
 - Outputs include nutrient concentrations, plankton biomass, and detritus levels over time.
 - Configurable for different marine ecosystems and scenarios.
 
+## Software
+- Jupyer Notebook
+- R
+
 ## Installation
 
-Via Blue-Cloud2026 Vlab - ?????
+Via Blue-Cloud2026 Vlab 3 — The model and dependencies are pre-installed in the virtual environment of the Vlab 3 – Cabon-Plankton dynamics.
 
 ## Usage
+Via Blue-Cloud2026 Vlab 3
+   1. **Open the Jupyter Notebook to start:**
+      NPZD.ipynb
 
-1. **Open the Jupyter Notebook to start the simulation:**
-   NAME NOTEBOOK
+   2. **Follow the step-by-step guide in the Jupyter Notebook**
 
-2. **Modify parameters in `config.json` to simulate different scenarios.**
-
-3. **View output data and plots in the `output/` directory.**
-
-Example configuration (`config.json`):
-```json
-{
-  "initial_nutrient_concentration": 10.0,
-  "phytoplankton_growth_rate": 1.2,
-  "zooplankton_grazing_rate": 0.8,
-  "detritus_decay_rate": 0.1,
-  "simulation_duration": 365
-}
-```
+   3. **Copy your results to your workspace**
 
 ## Model Details
 The NPZD model simulates four key compartments:
 
-1. **Nutrients (N):** Essential elements required for phytoplankton growth.
-2. **Phytoplankton (P):** Primary producers converting nutrients into biomass through photosynthesis.
-3. **Zooplankton (Z):** Consumers feeding on phytoplankton.
-4. **Detritus (D):** Non-living organic material resulting from dead organisms and waste products.
+   1. **Nutrients (N):** Essential elements required for phytoplankton growth.
+   2. **Phytoplankton (P):** Primary producers converting nutrients and carbon into biomass through photosynthesis.
+   3. **Zooplankton (Z):** Consumers feeding on phytoplankton.
+   4. **Detritus (D):** Non-living organic material resulting from dead organisms and waste products.
 
 Key processes:
-- Nutrient uptake by phytoplankton.
-- Grazing of phytoplankton by zooplankton.
-- Mortality and decomposition contributing to detritus.
-- Recycling of detritus into nutrients.
+   - Nutrient and carbon uptake by phytoplankton.
+   - Grazing of phytoplankton by zooplankton.
+   - Mortality and decomposition contributing to detritus.
+   - Recycling of detritus into nutrients.
 
+Input data:
+   - Sea Surface Temperature (SST) in °C
+   - Sea Surface Salinity (SSS) in PSU
+   - Nutrients (DIN, PO4, SiO4) in mmol N m-3 (or P or Si equivalent)
+   - Carbon data (pCO2 atmosphere, windspeed, pH)
+   - Threshold values for each parameter per region
+
+   All these data are required.
+
+Calibration and validation data:
+   - Chlorophyll-a (µg Chl m-3)
+   - Zooplankton abundances (ind m3-p
+   - partial pressure of CO2 (pCO2 seawater; µatm)
+
+   Chlorophyll-a data is required, the other are optional. 
+   
 ## Contributing
-Contributions are welcome! Please follow these steps:
-1. Fork the repository.
-2. Create a new branch for your feature or bugfix.
-3. Submit a pull request with a clear description of your changes.
+Please follow these steps:
+   1. Fork the repository.
+   2. Create a new branch for your feature or bugfix.
+   3. Submit a pull request with a clear description of your changes.
 
-For detailed guidelines, see the [CONTRIBUTING.md](CONTRIBUTING.md) file.
+## Scientific output
+Otero, V.; Pint, S.; Deneudt, K.; De Rijcke, M.; Mortelmans, J.; Schepers, L.; Martin-Cabrera, P.; Sabbe, K.; Vyverman,W.; Vandegehuchte, M.; et al. Pronounced Seasonal and Spatial Variability in Determinants of Phytoplankton Biomass Dynamics along a Near–Offshore Gradient in the Southern North Sea. J. Mar. Sci. Eng. 2023, 11, 1510. https://doi.org/10.3390/jmse11081510
 
 ## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the Creative Commons CC-BY 4.0 license.
+
+## Acknowledgments
+The production of this work has been supported by the Blue Cloud working environment via the Blue Cloud (https://blue-cloud.d4science.org, accessed on 15 March 2023) operated by D4Science.org (www.d4science.org, accessed on 15 March 2023). This work makes use of the LifeWatch data and infrastructure funded by Research Foundation—Flanders (FWO) as part of the Belgian contribution to LifeWatch ESFRI.
+
+The processed data and scripts have also been published in the Blue-Cloud Catalogue (https://data.d4science.org/ctlg/Zoo-Phytoplankton_EOV/spatiotemporal_analysis_of_plankton_drivers_in_the_belgian_part_of_the_north_sea_data, accessed on 10 March 2023), as well as deposited in Zenodo (https://doi.org/10.5281/zenodo.6794084, accessed on 10 March 2023) under a Creative Commons CC-BY 4.0 license. This allows for the use of the data and code under the condition of providing the reference to the original source: Steven Pint and Viviana Otero (2021). Data, scripts, and model output to perform spatiotemporal analysis of the plankton drivers in the Belgian part of the North Sea (dataset). Zenodo: https://doi.org/10.5281/zenodo.6794084, accessed on 10 March 2023. The raw input data J. Mar. Sci. Eng. 2023, 11, 1510 20 of 36 that was obtained from LifeWatch can be accessed through https://doi.org/10.14284/441 and https://doi.org/10.14284/445, accessed on 10 March 2023, or via https://rshiny.lifewatch.be/, accessed on 10 March 2023.
 
 ---
 
-For questions or further information, please contact the project maintainer at [email@example.com].
-
-
+For questions or further information, please contact the project maintainer at [steven.pint@vliz.be].
 
 ---
 
-## **Basic Structure of a README**
 
-### 1. **Project Title**
-   - A clear and concise name of the project.
-   - Optionally, include a tagline or a one-sentence description.
 
-### 2. **Project Description**
-   - A brief overview of what the project does, its purpose, and the problem it solves.
-   - You can include:
-     - Features or highlights of the project.
-     - Motivation for creating the project.
-     - A link to a live demo, if applicable.
 
-### 3. **Table of Contents** (Optional but recommended for longer README files)
-   - Helps users navigate the document.
-   - Example:
-     ```markdown
-     - [Installation](#installation)
-     - [Usage](#usage)
-     - [Contributing](#contributing)
-     - [License](#license)
-     ```
 
-### 4. **Installation Instructions**
-   - Clear steps on how to set up the project locally.
-   - Example:
-     ```markdown
-     1. Clone the repository:
-        ```bash
-        git clone https://github.com/username/project-name.git
-        ```
-     2. Navigate to the project directory:
-        ```bash
-        cd project-name
-        ```
-     3. Install dependencies:
-        ```bash
-        npm install
-        ```
-     ```
 
-### 5. **Usage**
-   - Instructions on how to run the project.
-   - Provide examples of commands, code snippets, or screenshots.
-   - Example:
-     ```markdown
-     To start the development server, run:
-     ```bash
-     npm start
-     ```
-     ```
-
-### 6. **Contributing Guidelines**
-   - Explain how others can contribute.
-   - Link to a `CONTRIBUTING.md` file if you have one.
-   - Example:
-     ```markdown
-     Contributions are welcome! Please open an issue or submit a pull request.
-     ```
-
-### 7. **License**
-   - Clearly state the license under which the project is distributed.
-   - Example:
-     ```markdown
-     This project is licensed under the MIT License. See the `LICENSE` file for details.
-     ```
-
----
-
-## **Optional Sections**
-
-### 8. **Badges**
-   - Badges (e.g., build status, coverage, downloads) can be added at the top.
-   - Example:
-     ```markdown
-     ![Build Status](https://img.shields.io/badge/build-passing-brightgreen)
-     ```
-
-### 9. **Screenshots**
-   - Add screenshots or GIFs to showcase the project.
-   - Example:
-     ```markdown
-     ![App Screenshot](path/to/screenshot.png)
-     ```
-
-### 10. **API Documentation**
-   - If your project involves an API, include an API reference or link to detailed documentation.
-
-### 11. **Acknowledgments**
-   - Credit individuals, organizations, or libraries that contributed to the project.
-
-### 12. **FAQs**
-   - Common questions and answers about the project.
-
-### 13. **Contact Information**
-   - Provide your contact information if you want users to reach out.
-
----
-
-## **Template Example**
-
-Here’s a simple README template to get you started:
-
-```markdown
-# Project Title
-
-Short project description goes here.
-
-## Table of Contents
-- [Installation](#installation)
-- [Usage](#usage)
-- [Contributing](#contributing)
-- [License](#license)
-
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/username/project-name.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd project-name
-   ```
-3. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-## Usage
-Provide usage instructions or examples here.
-
-## Contributing
-Contributions are welcome! Please follow the [contributing guidelines](CONTRIBUTING.md).
-
-## License
-This project is licensed under the MIT License. See the `LICENSE` file for more details.
-```
-
----
