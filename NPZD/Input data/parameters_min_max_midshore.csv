@@ -1,0 +1,14 @@
+Parameter,Min,Max
+maxUptake,0.25,1.5
+ksPAR,30,250
+ksDIN,0.25,5
+ksP,0.2,0.5
+ksSi,0.2,0.8
+maxGrazing,0.8,1
+ksGrazing,1,4
+pFaeces,0.2,0.5
+excretionRate,0.1,0.2
+mortalityRate,0.25,0.5
+ChlNratio,1,8
+Tobs,7,15
+kd,0.27,0.67
