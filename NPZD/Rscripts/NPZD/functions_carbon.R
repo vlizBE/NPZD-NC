@@ -86,8 +86,8 @@ req_vars_co2 <- function(start, stop, station_selection, station_region ) {
 #function to retrieve required variables (ph,sal and temp) to estimate PCO2w
 
 # Load functions for creating GAM models
-source("~/NPZD/Rscripts/GAM/functions_GAM_v1_SP.R")
-source("~/NPZD/Rscripts/GAM/LW_DataAccess_functions_for_GAM.R", encoding = "UTF-8")
+source("~/Rscripts/GAM/functions_GAM_v1_SP.R")
+source("~/Rscripts/GAM/LW_DataAccess_functions_for_GAM.R", encoding = "UTF-8")
 
 #devtools::install_github("lifewatch/lwdataexplorer")
   packages <- list("mgcv",
