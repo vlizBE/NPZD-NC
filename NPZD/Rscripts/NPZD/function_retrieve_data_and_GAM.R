@@ -4,20 +4,32 @@ get_needed_information <- function(){
   
   if (area == "bpns"){
     # Load LifeWatch (LW) data with LW package
-    station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
-    station_code <<- readline("What is the code of your station? For example 130 ")
     station_list <- c("LW01", "LW02", "435", "W07bis", "W08", "W09", "W10", "421", "130", "700",
                         "780", "330", "230", "710", "ZG02", "120", "215")
     station_coord <- data.frame("lat" = c(2.256, 2.556, 2.7903, 3.0125, 2.35, 2.7, 2.4167, 
                                       2.45, 2.9054, 3.221, 3.0573, 2.8091, 2.8504, 3.1383, 2.5007, 2.7025, 2.6108),
                             "long" = c(51.5687 , 51.8, 51.5807, 51.588, 51.4583, 51.75,
                                        51.6833, 51.4805, 51.2706, 51.377, 51.4714, 51.4341, 51.3087, 51.4412, 51.3352, 51.1861, 51.2749))
-                            
-    if (station_code %in% station_list){
+    station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
+    
+    if (station_region != "offshore") {
+        station_code <<- readline("What is the code of your station? For example 130 ")
+        if (station_code %in% station_list){
                station_lat <<- station_coord$lat[which(station_list %in% station_code)]       # coordinates station: latitude 
                station_lon <<- station_coord$long[which(station_list %in% station_code)]       # coordinates station: longitude
-     }
-
+     } else {
+        print("Station was not found? Please check.")
+        }
+        } else {
+        station_code <<- c("LW01", "LW02", "435", "W07bis", "W08", "W09", "W10", "421")
+        if (station_code[1] %in% station_list){
+               station_lat <<- station_coord$lat[which(station_list %in% station_code[1])]       # coordinates station: latitude 
+               station_lon <<- station_coord$long[which(station_list %in% station_code[1])]       # coordinates station: longitude
+         } else {
+        print("Station was not found? Please check.")
+        }
+        }
+    
     # period of your time series
     startdate <<- as.Date(readline("What is first date of your data? format YYYY-MM-DD  "))
     stopdate <<- as.Date(readline("What is last date of your data? format YYYY-MM-DD  "))
