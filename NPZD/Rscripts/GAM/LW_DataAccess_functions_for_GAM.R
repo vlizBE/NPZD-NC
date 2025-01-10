@@ -32,7 +32,7 @@ get_abiotic_pigment <- function(start, stop, station_selection, station_region){
   # Select only columns of interest
   df_all <- df_all %>%
     mutate(
-      areas = recode(station, !!!setNames(station_region, station_selection)),
+  areas = recode(station, !!!setNames(rep(station_region,length(station_selection)), station_selection)),
       din = `ammonium_nh4(µmol n_nh4/l)` + `nitrate_no3(µmol n_no3/l)` + `nitrite_no2(µmol n_no2/l)`
     ) %>% 
     select(
