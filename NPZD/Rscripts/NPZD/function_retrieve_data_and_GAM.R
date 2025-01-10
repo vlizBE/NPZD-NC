@@ -179,7 +179,7 @@ station_data <- station_data %>%
   gam_input[[var]] <- df_gam[,var]
 }
 predictions <- as.data.frame(gam_input)
-predictions$station <- station_code
+predictions$station <- station_region
 colnames(predictions) <- c("Date","no2", "po4", "sio4", "Temp", "nh4", "no3", "DIN", "station")
 # adjust negative DIN values to small concentration.
 if (length(which(predictions$DIN < 0 )) != 0) {
@@ -274,7 +274,7 @@ validation_data <-raw_input_vars %>%
   gam_input[[var]] <- df_gam[,var]
 }
 predictions <- as.data.frame(gam_input)
-predictions$station <- station_code
+predictions$station <- station_region
      
 }
 #Save predictions as csv
