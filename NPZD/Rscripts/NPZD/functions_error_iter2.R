@@ -426,7 +426,7 @@ get_validation_data <- function(){
 #Get observations of Chla and zooplankton
 observations <- get_abiotic_pigment(startdate, stopdate, station_code,station_region) 
 
-observations$Station[observations$Station == station_code] <- station_region
+observations$Station <- station_region
 
 #Observations from LifeWatch
 #Station, Date, Chlorophyll_a
@@ -441,7 +441,7 @@ chla <<- chla[!is.na(chla$Chla),]
 #Zooplankton data
 taxa <- c("Calanoida", "Noctiluca", "Harpacticoida", "Appendicularia")
 zoo_observations<- get_zooplankton(startdate, stopdate, taxa, station_code) 
-
+zoo_observations$Station <- station_region
 zoo_observations<-zoo_observations[which(zoo_observations$Station == station_code),]
 
 zoo_observations<-subset(subset(zoo_observations, Date > startdate), Date < stopdate)
