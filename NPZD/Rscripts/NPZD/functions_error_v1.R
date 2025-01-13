@@ -139,7 +139,7 @@ calculateErrors <- function(num_station, chla, zoo_aggregated, pco2w_validation,
   
   if(num_station == "offshore"){
     zoo_aggregated <- aggregate(zoo_aggregated$n_mol, by=list(zoo_aggregated$Date), FUN="median",  data = zoo_aggregated)  
-    chla <- aggregate(chla$Chlorophyll_a, by=list(chla$Time), FUN="median",  data = chla)  
+    chla <- aggregate(chla$Chla, by=list(chla$Time), FUN="median",  data = chla)  
   }
   
   for(i in 1:num_sim){
