@@ -69,6 +69,7 @@ get_validation_data <- function(){
 observations <- get_abiotic_pigment(startdate, stopdate, station_code,station_region) 
 
 observations$Station <- station_region
+
 #Observations from LifeWatch
 #Station, Date, Chlorophyll_a
 chla <- observations[,c("Station", "Date", "Chla")]
@@ -98,6 +99,7 @@ zoo_aggregated$Date <- as.Date(zoo_aggregated$Date)
 
 #Remove outlier station nearshore
 zoo_aggregated <<- zoo_aggregated[which(zoo_aggregated$n_mol < 0.5),]
+colnames(zoo_aggregated) <<- c("Date", "station", "zoo", "month")
         } else {
 chla <<- validation_data
  colnames(chla) <<- c("Time","Chla")
@@ -137,11 +139,7 @@ calculateErrors <- function(num_station, chla, zoo_aggregated, pco2w_validation,
   readDate <- read.csv(paste0(wd, "Input data/inputData_npzd_station", num_station, ".csv"))
   
   
-  if(num_station == "offshore"){
-    zoo_aggregated <- aggregate(zoo_aggregated$n_mol, by=list(zoo_aggregated$Date), FUN="median",  data = zoo_aggregated)  
-    chla <- aggregate(chla$Chla, by=list(chla$Time), FUN="median",  data = chla)  
-  }
-  
+
   for(i in 1:num_sim){
     
     output <- read.csv(paste0(wd, "Output/Intermediate results/station", num_station, "_iter1/detailed_simulation_", i, ".csv"))
@@ -154,14 +152,9 @@ calculateErrors <- function(num_station, chla, zoo_aggregated, pco2w_validation,
       
       ################
       #calculate error
+      temp_error<-calculateRMSE(output, possible_parameters[i,12],i, zoo_aggregated[,c("Date","zoo")], chla[,c("Time","Chla")], pco2w_validation, num_station)
+        
       
-      if(num_station == "offshore"){
-        temp_error<-calculateRMSE(output, possible_parameters[i,12],i, zoo_aggregated, chla, pco2w_validation, num_station)
-        
-      }else{
-        temp_error<-calculateRMSE(output, possible_parameters[i,12],i, zoo_aggregated[,c(1,2)], chla[,c("Time","Chla")], pco2w_validation, num_station)
-        
-      }
 
       errors_parameters$ID_sim[cont] <- i
       errors_parameters$rmse_zoo[cont] <- temp_error[[1]]
@@ -304,7 +297,7 @@ createBestSim <- function(ID_minError, station_int, chla_obs, zoo_obs, pco2w_obs
   figureBest_zoo <- ggplot() + 
     geom_line(data = bestSim, aes(x=as.Date(Date), y = zoo),alpha = 0.1) +
     geom_line(data = bestSim_mean_zoo, aes(x=as.Date(Date), y = zoo),colour = "blue", linewidth = 1) +
-    geom_point(data = zoo_obs, aes(x = as.Date(Date), y= n_mol), colour = "red")+
+    geom_point(data = zoo_obs, aes(x = as.Date(Date), y= zoo), colour = "red")+
     labs(x = "Time", y = "Zooplankton (mmol N/m3)") + 
     scale_x_date(date_breaks = "6 month", date_labels =  "%b %Y", expand = c(0, 0)) +
     theme(text = element_text(size=11), axis.text.x=element_text(angle=90, hjust=1))
@@ -348,7 +341,7 @@ createBestSim <- function(ID_minError, station_int, chla_obs, zoo_obs, pco2w_obs
   figureBest_zoo_log <- ggplot() + 
     geom_line(data = bestSim, aes(x=as.Date(Date), y = log(zoo)),alpha = 0.1) +
     geom_line(data = bestSim_mean_zoo, aes(x=as.Date(Date), y = log(zoo)),colour = "blue", linewidth = 1) +
-    geom_point(data = zoo_obs, aes(x = as.Date(Date), y= log(n_mol)), colour = "red")+
+    geom_point(data = zoo_obs, aes(x = as.Date(Date), y= log(zoo)), colour = "red")+
     labs(x = "Time", y = "Zooplankton (log mmol N/m3)") + 
     scale_x_date(date_breaks = "6 month", date_labels =  "%b %Y", expand = c(0, 0)) +
     theme(text = element_text(size=11), axis.text.x=element_text(angle=90, hjust=1))
@@ -436,7 +429,7 @@ monthlyBestSimulations <- function(simulations_best_temp, chla_obs, zoo_obs, pco
   names(zoo_obs_temp)[3] <- "month"
   names(zoo_obs_temp)[4] <- "type"
   
-  zoo_obs_temp$zoo <- zoo_obs$n_mol
+  zoo_obs_temp$zoo <- zoo_obs$zoo
   zoo_obs_temp$Date <- zoo_obs$Date
   zoo_obs_temp$month <- month(as.Date(zoo_obs_temp$Date))
   zoo_obs_temp$type <- "observed"
