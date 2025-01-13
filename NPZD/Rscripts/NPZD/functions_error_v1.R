@@ -49,12 +49,8 @@ convertZoo <- function(zoo_obs, num_station){
   zoo_converted <- rbind(calanoida, noctiluca, harpa, append)
   zoo_converted$Date<-as.Date(zoo_converted$Date, format = "%Y-%m-%d")
   
-  if(num_station == "offshore"){
-    summary_zoo <- aggregate(n_mol ~  Date + Station, data = zoo_converted, FUN = "sum")
-  }else{
-    summary_zoo <- aggregate(n_mol ~  Date, data = zoo_converted, FUN = "sum")
-  }
-  
+  summary_zoo <- aggregate(n_mol ~  Date + Station, data = zoo_converted, FUN = "sum")
+
   summary_zoo$month <- month(summary_zoo$Date)
   
   list_results <- list(zoo_converted, summary_zoo)
