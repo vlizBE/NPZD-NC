@@ -442,7 +442,7 @@ chla <<- chla[!is.na(chla$Chla),]
 taxa <- c("Calanoida", "Noctiluca", "Harpacticoida", "Appendicularia")
 zoo_observations<- get_zooplankton(startdate, stopdate, taxa, station_code) 
 zoo_observations$Station <- station_region
-zoo_observations<-zoo_observations[which(zoo_observations$Station == station_code),]
+zoo_observations<-zoo_observations[which(zoo_observations$Station == station_region),]
 
 zoo_observations<-subset(subset(zoo_observations, Date > startdate), Date < stopdate)
 
