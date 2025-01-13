@@ -514,7 +514,7 @@ increaseError_springSummer <- function(simulations_error, station_int, chla_obs)
   readDate  <- read.csv(paste0(wd, "Input data/inputData_npzd_station", station_int, ".csv"))
   
   if(station_int == "offshore"){
-    chla_obs <- aggregate(chla_obs$Chlorophyll_a, by=list(chla_obs$Time), FUN="median",  data = chla_obs)  
+    chla_obs <- aggregate(chla_obs$Chla, by=list(chla_obs$Time), FUN="median",  data = chla_obs)  
     names(chla_obs)[1] <- "Time"
     names(chla_obs)[2] <- "chla_obs"
   }
