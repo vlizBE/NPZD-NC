@@ -19,11 +19,6 @@ calculateErrors <- function(num_station, chla, zoo_aggregated, pco2w_validation,
   readDate <- read.csv(paste0(wd,"Input data/inputData_npzd_station", num_station, ".csv"))
   
   
-  if(num_station == "offshore"){
-    zoo_aggregated <- aggregate(zoo_aggregated$zoo, by=list(zoo_aggregated$Date), FUN="median",  data = zoo_aggregated)  
-    chla <- aggregate(chla$Chla, by=list(chla$Time), FUN="median",  data = chla)  
-  }
-  
   for(i in 1:num_sim){
     
     output <- read.csv(paste0(wd,"Output/Final results/NPZD/station", num_station, "_iter2/detailed_simulation_", i, ".csv"))
@@ -33,15 +28,9 @@ calculateErrors <- function(num_station, chla, zoo_aggregated, pco2w_validation,
       
       ################
       #calculate error
-          
-      if(num_station == "offshore"){
-        temp_error<-calculateRMSE(output, possible_parameters_1[i,"ChlNratio"],  possible_parameters_2[i,"ChlNratio"], zoo_aggregated, chla, pco2w_validation)
+      temp_error<-calculateRMSE(output, possible_parameters_1[i,"ChlNratio"], possible_parameters_2[i,"ChlNratio"], zoo_aggregated[,c("Date", "zoo")], chla[,c("Time","Chla")], pco2w_validation)
         
-      }else{
-        temp_error<-calculateRMSE(output, possible_parameters_1[i,"ChlNratio"], possible_parameters_2[i,"ChlNratio"], zoo_aggregated[,c("Date", "zoo")], chla[,c("Time","Chla")], pco2w_validation)
-        
-      }
-      
+
       errors_parameters$ID_sim[cont] <- i
       errors_parameters$rmse_zoo[cont] <- temp_error[[1]]
       errors_parameters$rmse_phyto[cont] <- temp_error[[2]]
@@ -427,7 +416,7 @@ get_validation_data <- function(){
 observations <- get_abiotic_pigment(startdate, stopdate, station_code,station_region) 
 
 observations$Station <- station_region
-
+    
 #Observations from LifeWatch
 #Station, Date, Chlorophyll_a
 chla <- observations[,c("Station", "Date", "Chla")]
@@ -457,7 +446,7 @@ zoo_aggregated$Date <- as.Date(zoo_aggregated$Date)
 
 #Remove outlier station nearshore
 zoo_aggregated <<- zoo_aggregated[which(zoo_aggregated$n_mol < 0.5),]
-colnames(zoo_aggregated) <<- c("Date", "zoo", "month")
+colnames(zoo_aggregated) <<- c("Date", "station", "zoo", "month")
         } else {
 chla <<- validation_data
  colnames(chla) <<- c("Time","Chla")
