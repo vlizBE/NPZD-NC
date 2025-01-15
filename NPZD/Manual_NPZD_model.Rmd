@@ -78,7 +78,7 @@ For calibration and validation:
 
 This workflow is focused on the Belgian part of the North Sea (BPNS; Fig. 2), located in the southern part of the North Sea, and the Gulf of Trieste, located in the northern Adriatic Sea. 
 
-For the BPNS, the following locations are the selected sampling stations used in the analyses presented in this document. We focused on nearshore, midshore and offshore regions. We analysed one nearshore station (code 130 in the LifeWatch campaigns), one midshore (code 330) and seven offshore stations. The offshore stations were grouped to have a sufficient amount of data as the offshore region was sampled seasonally, whereas the other regions were sampled monthly.
+For the BPNS, the following locations are the selected sampling stations used in the analyses presented in this document. We focused on nearshore, midshore, and offshore regions. We analysed one nearshore station (code 130 in the LifeWatch campaigns), one midshore (code 330) and seven offshore stations. The offshore stations were grouped to have a sufficient amount of data as the offshore region was sampled seasonally, whereas the other regions were sampled monthly.
 
 ![](NPZD/Input data/map BPNS.png)
 *Figure 2*. Location of the stations of interest in the Belgian Part of the North Sea. The black line indicates the Belgian Exclusive Economic Zone. The nearshore, midshore and offshore are <10km, 10km - 30km and >30km respectively in distance to the coast.
@@ -107,7 +107,7 @@ dir.create(paste0(wd, "Output/Final results"))
 dir.create(paste0(wd, "Output/Final results/NPZD"))
 dir.create(paste0(wd, "Output/Final results/Relative contributions"))
 ```
-Now, there should be a folder called *NPZD* in your home space, containing the subfolders *Input data*, *Rscripts* and *Output*. These subfolders contain subfolders and data or R scripts. Having these files in our home space, makes it possible to run the NPZD model.
+Now, there should be a folder called *NPZD* in your home space, containing the subfolders *Input data*, *Rscripts* and *Output*. These subfolders contain subfolders and data or R scripts. Having these files in our home space makes it possible to run the NPZD model.
 
 
 ### 2.3 Input Data
@@ -120,7 +120,7 @@ The input data that is required to perform an NPZD model is:
 
 The input data should be daily. If this is not the case for your input data, we would like to refer to some guidelines available on https://m-clark.github.io/generalized-additive-models/ and https://petolau.github.io/Analyzing-double-seasonal-time-series-with-GAM-in-R/ to create input data that is daily.
 
-Further, before running the NPZD model, the input data should be in the right format, i.e. .csv files, same order of the columns and same column names (Table 1), and the input data should be in the same units (see above). units (see above). 
+Further, before running the NPZD model, the input data should be in the right format, i.e. .csv files, same order of the columns and same column names (Table 1), and the input data should be in the same units (see above).
 
 *Table 1*. An example of how the input data format looks like.
 <table>
@@ -158,7 +158,7 @@ load_all_packages()
 
 ## 3. NPZD Model
 
-If you already have balanced the model, you can skip to section 3.3. If you are running the model for the first time, calibrating the model to your environmental settings is required and you start at section 3.1.
+If you already have balanced the model, you can skip to section 3.3 after providing the 'needed' information below. If you are running the model for the first time, calibrating the model to your environmental settings is required and you start at section 3.1.
 
 Let's provide the information on our data, such as location, code of the station, region of the station or start- and stopdate of the observations where the samples were taken. This information is used throughout the manuscript, e.g. to extract observations, calibration and validation. 
 
