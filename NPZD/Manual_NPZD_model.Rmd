@@ -158,7 +158,7 @@ load_all_packages()
 
 ## 3. NPZD Model
 
-If you already have balanced the model, you can skip to section 3.3 after providing the 'needed' information below. If you are running the model for the first time, calibrating the model to your environmental settings is required and you start at section 3.1.
+If you already have balanced the model, you can skip to section 3.3 after providing the 'needed' information and number of iterations below. If you are running the model for the first time, calibrating the model to your environmental settings is required and you start at section 3.1.
 
 Let's provide the information on our data, such as location, code of the station, region of the station or start- and stopdate of the observations where the samples were taken. This information is used throughout the manuscript, e.g. to extract observations, calibration and validation. 
 
