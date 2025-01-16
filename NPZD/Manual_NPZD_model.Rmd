@@ -243,13 +243,7 @@ We load the *in situ* data, e.g. chlorophyll-a observations, for the time interv
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 get_validation_data()
 ```
-The chlorophyll-a observations may look like the example below.
-```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE, results='asis'}
-library(knitr)
-InputData_example <- read.csv(paste0(wd, "Input data/abiotic_pigment_2020.csv"), header = TRUE)
-head(InputData_example)
-```
-The calculateErrors() function stores all simulations that were not successfull, which is used to remove them. 
+The calculateErrors() function stores all simulations that were not successful, which is used to remove them. 
 Here, we calculate the total RMSE of each model run. With the total RMSE, we can find the best model parameters, i.e. the one of which the total RMSE is the lowest.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 simulations_error <- calculateErrors(station_region, chla, zoo_aggregated, pco2w_validation, numSimulations)
@@ -535,6 +529,8 @@ Or we can look at the dissolved carbon in the seawater.
 pco2w_graph()
 ```
 The relative contribution can also be visualized. This example gives the relative contribution of each parameter for primary production.
+
+Now, we can have a look at the relative contribution by visualizing it with the following code.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 # possible graph types: line, boxplot or both
 relative_contribution_graph(type = 'both')
