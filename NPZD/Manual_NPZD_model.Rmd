@@ -44,11 +44,11 @@ Carbon dynamics are simulated based on the marine biological carbon pump (Figure
 
 Marine phytoplankton is at the base of the marine food web and regulates functions in coastal ecosystems. Changes observed in the marine plankton community are expected to have a knock-on effect throughout the food web. Therefore, understanding how primary production changes through time and space is of key importance to better quantify the effects of human activities and their impact on the ocean.
 
-With the methodology presented in this document, it is possible to analyze which factors drive the phytoplankton dynamics and how these factors change in space and time. Additionally, it is possible to simulate the carbon dynamics in the detritus compartment, i.e. carbon sequestration. This workflow initially focused on the Belgian part of the North Sea (BPNS), located in the southern part of the North Sea, where high density of observations are available. Now, it is extended to the Northern Adriatic region improving reproducibility of the workflow. For other regions, this document can be used as a guideline to perform similar analyses. It is important to note that the principles behind the modelling approach are universally applicable. When applying the model to another area recalibration of the model to the local conditions is required for optimal performance (cfr. section 3.1 and 3.2).
+With the methodology presented in this document, it is possible to analyze which factors drive the phytoplankton dynamics and how these factors change in space and time. Additionally, it is possible to simulate the carbon dynamics in the detritus compartment, i.e. carbon sequestration. This workflow initially focused on the Belgian part of the North Sea (BPNS), located in the southern part of the North Sea, where high density of observations are available. Now, it is extended to the Northern Adriatic region improving reproducibility of the workflow. For other regions, this document can be used as a guideline to perform similar analyses. It is important to note that the principles behind the modeling approach are universally applicable. When applying the model to another area recalibration of the model to the local conditions is required for optimal performance (cfr. section 3.1 and 3.2).
 
 We start by describing the input data, R scripts, and functions that were used for this Nutrient-Phytoplankton-Zooplankton (NPZD) model. Then, this manual will guide you step by step on how to run the NPZD model. At the end, phyto- and zooplankton dynamics will be simulated, and the relative contributions of the environmental parameters estimated.
 
-## 1.1 Modelling Approach
+## 1.1 Modeling Approach
 
 The ecosystem model for Nutrient, Phytoplankton, Zooplankton, and Detritus was used to simulate changes in plankton density (Soetaert and Herman, 2009). This model describes daily changes in phyto- and zooplankton density based on abiotic parameters (Fig. 1). The variables in the model are expressed in mmol N m<-3> and mmol C m<-3>. Daily changes in these variables are expressed in mmol N m<-3> d<-1> and mmol C m<-3> d<-1>.
 
@@ -228,7 +228,7 @@ stopCluster(cl)
 
 
 ### 3.2 Calibration 2: Calculate the Root Mean Square Error
-Time to see how well the model simulated phyto-and zooplankton dynamics. In this step, we compare the model results with observation data. This is done by calculating the Root Mean Square Error (RMSE). The best fitted models, i.e. the models of which the total RMSE was the lowest, will be selected to update the threshold value of the model's parameters. By doing this, we optimise the model to make realistic predictions. The parameters of the best 10% simulations are used to optimise the threshold values of the parameters. Then, we can run the model for a second time.
+Time to see how well the model simulated phyto-and zooplankton dynamics. In this step, we compare the model results with observation data. This is done by calculating the Root Mean Square Error (RMSE). The best-fitted models, i.e. the models of which the total RMSE was the lowest, will be selected to update the threshold value of the model's parameters. By doing this, we optimize the model to make realistic predictions. The parameters of the best 10% simulations are used to optimize the threshold values of the parameters. Then, we can run the model for a second time.
 
 *Used R script:*
   - *functions_error_v1.R*
@@ -243,8 +243,7 @@ We load the *in situ* data, e.g. chlorophyll-a observations, for the time interv
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 get_validation_data()
 ```
-We load the phytoplankton data, i.e. chlorophyll-a observations, which was collected from LifeWatch (https://rshiny.lifewatch.be/station-data/).
-The data looks like the example below.
+The chlorophyll-a observations may look like the example below.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE, results='asis'}
 library(knitr)
 InputData_example <- read.csv(paste0(wd, "Input data/abiotic_pigment_2020.csv"), header = TRUE)
@@ -261,7 +260,7 @@ simulations_error <- calculateErrors(station_region, chla, zoo_aggregated, pco2w
 simulations_error <- simulations_error[!is.na(simulations_error$ID_sim),]
 numSim <- nrow(simulations_error)
 ```
-The best ten percent (0.1) of simulations will be selected. It is possible to specify the percentage to your choice.
+The best ten percent (0.1) of simulations will be selected. It is possible to specify the percentage of your choice.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #Select the best simulation based on a percentage
 numSim_select <- trunc(numSim*0.1)
@@ -282,7 +281,7 @@ simulations_best_rmse <- bestSimulations(min_error_rmse$ID_sim, station_region)
 graph_best_rmse_monthly <- monthlyBestSimulations(simulations_best_rmse, chla, zoo_aggregated,pco2w_validation)
 graph_best_rmse_monthly
 ```
-After a visual control, we select new parameter threshold values based on the 10% best runs from the previous iteration to optimise the model. To further optimise the model, we select the 10% best parameter values for spring conditions and the 10% best parameter values for summer-autumn conditions.
+After a visual control, we select new parameter threshold values based on the 10% best runs from the previous iteration to optimize the model. To further optimize the model, we select the 10% best parameter values for spring conditions and the 10% best parameter values for summer-autumn conditions.
 ```{r, include=FALSE}
 #######################################
 #Select parameters for next iteration
@@ -300,7 +299,7 @@ bestSim_graphs_spring <- createBestSim(min_error_rmse2$ID_sim, station_region, c
 bestSim_spring <- bestSimulations(min_error_rmse2$ID_sim, station_region)
 graph_monthly_spring <- monthlyBestSimulations(bestSim_spring, chla, zoo_aggregated,pco2w_validation)
 
-#Compare selection with non penalized set
+#Compare selection with non-penalized set
 comparison_spring<-data.frame(matrix(nrow = numSim_select, ncol = 2))
 names(comparison_spring)[1] <- "rmse1_ID"
 names(comparison_spring)[2] <- "in_rmse2"
@@ -319,7 +318,7 @@ bestSim_graphs_summer <- createBestSim(min_error_rmse3$ID_sim, station_region, c
 bestSim_summer <- bestSimulations(min_error_rmse3$ID_sim, station_region)
 graph_monthly_summer <- monthlyBestSimulations(bestSim_summer, chla, zoo_aggregated,pco2w_validation)
 
-#Compare selection with non penalized set
+#Compare selection with non-penalized set
 comparison_summer<-data.frame(matrix(nrow = numSim_select, ncol = 2))
 names(comparison_summer)[1] <- "rmse1_ID"
 names(comparison_summer)[2] <- "in_rmse3"
@@ -327,7 +326,7 @@ names(comparison_summer)[2] <- "in_rmse3"
 comparison_summer$rmse1_ID <- min_error_rmse$ID_sim
 comparison_summer$in_rmse3 <- comparison_summer$rmse1_ID %in% min_error_rmse3$ID_sim
 ```
-After selecting the 10% best parameters, we create two new files, one with the parameters threshold values for the spring conditions and one for summer-autumn conditions. The new files are stored in the data folder and will be used as input in the next model iteration.
+After selecting the 10% best parameters, we create two new files, one with the parameter threshold values for the spring conditions and one for summer-autumn conditions. The new files are stored in the data folder and will be used as input in the next model iteration.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 ##########################################
 #Create file of parameters for iteration 2
@@ -355,12 +354,8 @@ First, we start again by loading the functions and R packages needed to run the 
 
 ##########
 source(paste0(wd, "Rscripts/NPZD/functions_NPZD_parallel_iter2_artifact.R"))
-#library(parallel)
-#library(foreach)
-#library(doParallel)
-#library(seacarb)
 ```
-Similar to the first step (3.1), we create starting combinations for the parameters based on their threshold value defined by the previous iteration. This is done in twofold, once for the spring condition and once for the summer-autumn conditions. In addition, we write .csv files for both conditions, with the possible parameters and store it in the output folder.
+Similar to the first step (3.1), we create starting combinations for the parameters based on their threshold value defined by the previous iteration. This is done twofold, once for the spring conditions and once for the summer-autumn conditions. In addition, we write .csv files for both conditions, with the possible parameters, and store them in the output folder.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #Get data generated using GAM for DIN, PO4, SiO4, and temperature
 inputData <- read.csv(paste0(wd, "Input data/inputData_npzd_station", station_region,".csv"))
@@ -378,7 +373,7 @@ parameters_values2 <- read.csv(paste0(wd, "Input data/parameters_5000_iter2_summ
 possible_parameters_2 <- create_parameters(numSimulations, parameters_values2, 2)
 write.csv(possible_parameters_2, paste0(wd, "Output/Final results/NPZD/station", station_region,"_iter2/possible_parameters_summer_iter2.csv"))
 ```
-For the second time, we will run the NPZD model for each combination of parameters of the spring and summer-autumn conditions. This will also be done in parallel to speed up the process. This means that we will use several cores of the server in this case. You can specify how many cores you want to use in the line containing "cores <- num_cores - 1". We left 1 core free, but you can choose to leave more cores free. It necessary to leave at least 1 core free as this core will be used to manage the other cores.
+For the second time, we will run the NPZD model for each combination of parameters of the spring and summer-autumn conditions. This will also be done in parallel to speed up the process. This means that we will use several cores of the server in this case. You can specify how many cores you want to use in the line containing "cores <- num_cores - 1". We left 1 core free, but you can choose to leave more cores free. It is necessary to leave at least 1 core free as this core will be used to manage the other cores.
 The output of the model is stored in a subfolder of the output folder, and will have a name such as "detailed_simulation_255.csv"
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE, include=FALSE}
 #Simulate NPZD model for each combination of parameters i
@@ -403,18 +398,12 @@ stopCluster(cl)
 ```
 
 ### 3.4 Simulation: Calculate the Root Mean Square Error
-Again, we calculate the RMSEs to see how well the model simulated phyto- and zooplankton dynamics. Now, we will select the best 10% to simulate the plankton dynamics and estimate the uncertainty on the simulations, i.e. provide a 95% confidence interval. 
+Again, we calculate the RMSEs to see how well the model simulated phyto- and zooplankton dynamics. Now, we will select the best 10% to simulate the plankton dynamics and estimate the uncertainty of the simulations, i.e. provide a 95% confidence interval. 
 
 *Used R script:*
   - *functions_error_iter2*
 
-We load our functions that we will use first.
-```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
-#Error analysis NPZD model
-source(paste0(wd, "Rscripts/NPZD/functions_error_iter2.R"))
-
-```
-Specify our station of interest and the number of simulation that were performed.
+We load the functions that we will use first.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #Error analysis NPZD model
 source(paste0(wd, "Rscripts/NPZD/functions_error_iter2.R"))
@@ -463,9 +452,8 @@ We load the function and R packages that are used in this script.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #Relative contributions calculation
 source(paste0(wd, "Rscripts/NPZD/functions_relativeContributions_iter2.R"))
-#library(viridis)
 ```
-We specify our station of interest and load our results with the total RMSE from the subfolder in the output folder. We select only the 10% best simulations to calculate the relative contribution of the key drivers of primary production.
+We load our results with the total RMSE from the subfolder in the output folder. We select only the 10% best simulations to calculate the relative contribution of the key drivers of primary production.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #Load error per simulation
 error_log <- read.csv(paste0(wd, "Output/Final results/NPZD/station", station_region, "_iter2/errors_parameters_iter2.csv"))
@@ -480,7 +468,9 @@ numSim <- trunc(percentage * nrow(order_error))
 #numSim<-100
 selectedSim <- order_error[1:numSim,]
 ```
-Finally, we calculate the relative contribution of the key drivers, i.e. nutrients (DIN, PO~4~ and SiO~4~), SST, PAR and zooplankton grazing. The results are stored in a subfolder ("relativeContributions_smooth") in the output folder and named for example "contributionsNormalized_month_stationnearshore.csv".
+Finally, we calculate the relative contribution of the key drivers, i.e. nutrients (DIN, PO~4~ and SiO~4~), SST, PAR and zooplankton grazing. The results are stored in a subfolder ("relativeContributions_smooth") in the output folder and named for example "contributionsNormalized_month_stationnearshore.csv". If the following error occurs, you will have to restart the kernel.
+Error in base::nchar(wide_chars$test, type = "width"): lazy-load database '/opt/conda/lib/R/library/cli/R/sysdata.rdb' is corrupt.
+
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #This function calculates the relative contributions per month per simulation
 relativeContributions <- calculateContributions(selectedSim, station_region)
@@ -500,7 +490,7 @@ write.csv(contributions_plot, paste0(wd, "Output/Final results/Relative contribu
 ```
 
 ### 3.6 Visualization: Creating graphs with the results
-Now that everything is simulated, calculated and estimated, it's time to visualize our results. We provide a couple of examples on how the results can be visualized.
+Now that everything is simulated, calculated, and estimated, it's time to visualize our results. We provide a couple of examples on how the results can be visualized.
 
 *Used R scripts:*
   - *functions_graphs.r*
@@ -511,12 +501,8 @@ We load the functions that are necessary to run this script.
 source(paste0(wd, "Rscripts/NPZD/functions_graphs.r"))
 source(paste0(wd, "Rscripts/NPZD/functions_relativeContributions_iter2.R"))
 ```
-Then we process some results to get the phyto- and zooplankton dynamics ready to visualize, i.e. select the best simulations.
+Then we process some results to get the phyto- and zooplankton dynamics ready to visualize, i.e. select the best simulations. This function extracts the details of the 10% best simulations for the station. For more details, have a look at the script "functions_graphs.r". The function can take a while to run and it returns monthly values per simulation.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE, warning = FALSE}
-#This function extracts the details of the 10% best simulations for station
-#See more details in the script of "functions_graphs.r"
-#The function takes a while to run
-#The function returns monthly values per simulation
 all_output_complete <- getBestSim(station_region)
 ```
 After the processing, we can visualize the phyto-and zooplankton dynamics together in one plot.
@@ -526,9 +512,9 @@ graph_phyto_zoo()
 comparisonGrap_chla_zoo 
 ```
 We can visualize the phytoplankton dynamics separately.
-If the following error occurs, you will hav to restart the kernel.
+If the following error occurs, you will have to restart the kernel.
+*Error in base::nchar(wide_chars$test, type = "width"): lazy-load database '/opt/conda/lib/R/library/cli/R/sysdata.rdb' is corrupt*.
 
-*Error in base::nchar(wide_chars$test, type = "width"): lazy-load database '/opt/conda/lib/R/library/cli/R/sysdata.rdb' is corrupt*:
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 graph_phyto()
 comparisonGraphAvg_chla
@@ -538,18 +524,17 @@ We can visualize the zooplankton dynamics separately.
 graph_zoo()
 comparisonGraphAvg_zoo
 ```
-Let's have a look at the carbon in the detritus compartiment.
+Let's have a look at the carbon in the detritus compartment.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 # detritus in carbon and nitrogen
 detritus_graphs()
 ```
+Or we can look at the dissolved carbon in the seawater.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 # pCO2w with observations
 pco2w_graph()
 ```
-The relative contribution can also be visualized. This example gives the relative contribution of each parameter for primary production by region.
-
-Now, we can have a look at the relative contribution by visualizing it with the following code.
+The relative contribution can also be visualized. This example gives the relative contribution of each parameter for primary production.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 # possible graph types: line, boxplot or both
 relative_contribution_graph(type = 'both')
@@ -576,12 +561,12 @@ ggsave("Relative contributions.jpeg", plot = relative_contribution_line, path = 
 ggsave("Boxplot relative contributions.jpeg", plot = relative_contribution_boxplot, path = paste0(wd, "Output/Graphs"),
        width = 20,  height = 14,  units = "cm", dpi = 300)
 ```
-In case you want to store the results to share for example, you can copy them manually to your workspace or using the code below.
+In case you want to store the results for sharing them, you can copy them manually to your workspace through the file organizer on the right of the screen or using the code below. Do not forget to change the directories, i.e. the folder you want to create, the folder in your homespace (local_folder_output) you want to copy, and the folder in your workspace where you will paste the files.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 #create a new folder to store the results in 
 dir.create("~/workspace/NPZD_results") # create a working folder for your results
 
-# copy and past files using R
+# copy and paste files using R
 local_folder_output <- "~/NPZD/Output"   # change to published folder
 workspace_folder <- "~/workspace/NPZD_results"
 
