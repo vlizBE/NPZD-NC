@@ -542,19 +542,19 @@ relative_contribution_boxplot
 Let's save our graphs in a subfolder called 'Graphs' in the 'Output' folder.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 dir.create(paste0(wd, "Output/Graphs")) # create an subfolder for your graphs
-ggsave("Phyto- and zooplankton dynamics.jpeg", plot = comparisonGrap_chla_zoo, path = paste0(wd, "Output/Graphs"),
+ggsave("Phyto- and zooplankton dynamics.jpeg", plot = comparisonGraphAvg_station_chla_zoo, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("Phytoplankton dynamics.jpeg", plot = comparisonGraphAvg_chla, path = paste0(wd, "Output/Graphs"),
+ggsave("Phytoplankton dynamics.jpeg", plot = comparisonGraphAvg_station_chla, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("Zooplankton dynamics.jpeg", plot = comparisonGraphAvg_zoo, path = paste0(wd, "Output/Graphs"),
+ggsave("Zooplankton dynamics.jpeg", plot = comparisonGraphAvg_station_zoo, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("Detritus dynamics.jpeg", plot = ?, path = paste0(wd, "Output/Graphs"),
+ggsave("Detritus dynamics.jpeg", plot = graphs_detritus, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("pCO2seawater dynamics.jpeg", plot = ?, path = paste0(wd, "Output/Graphs"),
+ggsave("pCO2w dynamics.jpeg", plot = graphs_pco2w, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("Relative contributions.jpeg", plot = relative_contribution_line, path = paste0(wd, "Output/Graphs"),
+ggsave("Relative contributions.jpeg", plot = comparisonGraph, path = paste0(wd, "Output/Graphs"),
        width = 28,  height = 14,  units = "cm", dpi = 300)
-ggsave("Boxplot relative contributions.jpeg", plot = relative_contribution_boxplot, path = paste0(wd, "Output/Graphs"),
+ggsave("Boxplot relative contributions.jpeg", plot = comparisonContribution, path = paste0(wd, "Output/Graphs"),
        width = 20,  height = 14,  units = "cm", dpi = 300)
 ```
 In case you want to store the results for sharing them, you can copy them manually to your workspace through the file organizer on the right of the screen or using the code below. Do not forget to change the directories, i.e. the folder you want to create, the folder in your homespace (local_folder_output) you want to copy, and the folder in your workspace where you will paste the files.
