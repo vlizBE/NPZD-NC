@@ -64,14 +64,14 @@ The model requires the following input data:
   1. Sea Surface Temperature (SST) in °C
   2. Sea Surface Salinity (SSS) in PSU
   3. Nutrients (DIN, PO~4~, SiO~4~) in mmol N m<-3> (or P or Si equivalent)
-  4. Carbon data (pCO~2~ atmosphere~, windspeed, pH)
+  4. Carbon data (pCO~2 atmosphere~, windspeed, pH)
   5. Threshold values for each parameter per region
 
 For calibration and validation:
 
   1. Chlorophyll-a (µg Chl m<-3>)
   2. Zooplankton abundances (ind m<3->)
-  3. partial pressure of CO~2~ (pCO~2~ seawater; µatm)
+  3. partial pressure of CO~2~ (pCO~2 seawater~; µatm)
  
 
 ### 1.3. Study Area
@@ -152,7 +152,7 @@ The R scripts in the subfolder *NPZD* under *Rscript* contain functions that are
 Before we start running the NPZD model, we want to make sure all the needed R packages are properly installed. With the code below, we check if the R packages that we will use are installed. If this is not the case, it will install the R packages that are missing.
 ```{r, echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 source(paste0(wd, "Rscripts/NPZD/function_installed_packages.R"))
-# checkmate, seacarb, lwdataexplorer package needs to be preinstalled,‘oce’, ‘gsw’, ‘SolveSAPHE’
+
 load_all_packages()
 ```
 
