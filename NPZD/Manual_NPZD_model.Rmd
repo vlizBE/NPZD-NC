@@ -54,7 +54,7 @@ The ecosystem model for Nutrient, Phytoplankton, Zooplankton, and Detritus was u
 
 This model is useful to describe marine and freshwater systems. The state variables are nutrients, phytoplankton, zooplankton, and detritus. The workflow focused on a marine system and followed a similar methodology as described in Everaert et al. (2015). Nutrients are defined as the total density of Dissolved Inorganic Nitrogen (DIN), Phosphate (PO~4~), and Silicate (SiO~4~). DIN is defined as the sum of NH~4~, NO~3~ and NO~2~.
 
-![](NPZD/Input data/NPZD.jpg)
+![](~/work/NPZD-NC/NPZD/Input data/NPZD.jpg)
 *Figure 1*. The top figure illustrates the NPZD model in the ecosystem. The figure below shows the structure of the NPZD ecological model, with the state variables and main processes. 
 
 ### 1.2. Input Data
@@ -80,7 +80,7 @@ This workflow is focused on the Belgian part of the North Sea (BPNS; Fig. 2), lo
 
 For the BPNS, the following locations are the selected sampling stations used in the analyses presented in this document. We focused on nearshore, midshore, and offshore regions. We analysed one nearshore station (code 130 in the LifeWatch campaigns), one midshore (code 330) and seven offshore stations. The offshore stations were grouped to have a sufficient amount of data as the offshore region was sampled seasonally, whereas the other regions were sampled monthly.
 
-![](NPZD/Input data/map BPNS.png)
+![](~/work/NPZD-NC/NPZD/Input data/map BPNS.png)
 *Figure 2*. Location of the stations of interest in the Belgian Part of the North Sea. The black line indicates the Belgian Exclusive Economic Zone. The nearshore, midshore and offshore are <10km, 10km - 30km and >30km respectively in distance to the coast.
 
 For the Gulf of Trieste, the data was collected from the C1 station. This station lies in the nearshore region and is also used in the analyses presented in this document.
@@ -98,7 +98,7 @@ A working folder is provided. This is done to structure the work and make sure t
 
 ```{r,echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
 # set working directory
-wd =  "~/NPZD/"
+wd =  "~/work/NPZD-NC/NPZD/"
 
 # create a folder with subfolders to store your results
 dir.create(paste0(wd, "Output"))
