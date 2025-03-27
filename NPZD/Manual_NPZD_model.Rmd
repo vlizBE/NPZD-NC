@@ -85,7 +85,7 @@ For the BPNS, the following locations are the selected sampling stations used in
 
 For the Gulf of Trieste, the data was collected from the C1 station. This station lies in the nearshore region and is also used in the analyses presented in this document.
 
-![](NPZD/Input data/map BPNS.png)
+![](~/work/NPZD-NC/NPZD/Input data/map BPNS.png)
 *Figure 3*. Location of the station of interest (C1) in the Gulf of Trieste (northern Adriatic Sea).
 
 ## 2. Preparation
