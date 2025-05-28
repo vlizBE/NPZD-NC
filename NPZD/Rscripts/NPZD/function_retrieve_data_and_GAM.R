@@ -1,7 +1,18 @@
 get_needed_information <- function(){
+  area <<- readline(prompt = "What is the area you want to explore? Belgian part of the North Sea (bpns), 
+                  Northern Adriatic Sea (nas) or another place? \n possible answers: bpns, nas, other ")
+  # Define the allowed values
+allowed_areas <- c("bpns", "nas", "other")
+
+# Check if area is in the allowed values
+if (!(area %in% allowed_areas)) {
+  display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Invalid area! \n area must be bpns, nas or other.
+             </div>')
   area <<- readline(prompt = "What is the area you want to explore? Belgian part of the North Sea, 
                   Northern Adriatic Sea or another place? \n possible answers: bpns, nas, other ")
-  
+}
+
   if (area == "bpns"){
     # Load LifeWatch (LW) data with LW package
     station_list <- c("LW01", "LW02", "435", "W07bis", "W08", "W09", "W10", "421", "130", "700",
@@ -11,14 +22,26 @@ get_needed_information <- function(){
                             "long" = c(51.5687 , 51.8, 51.5807, 51.588, 51.4583, 51.75,
                                        51.6833, 51.4805, 51.2706, 51.377, 51.4714, 51.4341, 51.3087, 51.4412, 51.3352, 51.1861, 51.2749))
     station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
-    
+    # Define the allowed values
+    allowed_regions <- c("nearshore", "midshore", "offshore")
+      if (!(station_region %in% allowed_regions)) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Invalid region! \n area must be nearshore, midshore or offshore.
+             </div>')
+          station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
+    }
+      
     if (station_region != "offshore") {
-        station_code <<- readline("What is the code of your station? For example 130 ")
+        station_code <<- readline("What is the code of your station? For example for BPNS nearshore it can be 130, 120 or 700. For the BPNS midshore it can be 330, 230, 710, 780, ZG02, 215")
         if (station_code %in% station_list){
                station_lat <<- station_coord$lat[which(station_list %in% station_code)]       # coordinates station: latitude 
                station_lon <<- station_coord$long[which(station_list %in% station_code)]       # coordinates station: longitude
      } else {
-        print("Station was not found? Please check.")
+         display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: "Station was not found? Please check."
+             </div>')
+         station_code <<- readline("What is the code of your station? For example for BPNS nearshore it can be 130, 120 or 700. For the BPNS midshore it can be 330, 230, 710, 780, ZG02, 215")
+
         }
         } else {
         station_code <<- c("LW01", "LW02", "435", "W07bis", "W08", "W09", "W10", "421")
@@ -26,34 +49,67 @@ get_needed_information <- function(){
                station_lat <<- station_coord$lat[which(station_list %in% station_code[1])]       # coordinates station: latitude 
                station_lon <<- station_coord$long[which(station_list %in% station_code[1])]       # coordinates station: longitude
          } else {
-        print("Station was not found? Please check.")
+         display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: "Station was not found? Please check if corresponds with one of the stations in the \n BPNS nearshore: 130, 120 or 700 \n BPNS midshore: 330, 230, 710, 780, ZG02, 215
+             </div>')
+         station_code <<- readline("What is the code of your station? For example for BPNS nearshore it can be 130, 120 or 700. For the BPNS midshore it can be 330, 230, 710, 780, ZG02, 215")
         }
         }
-    
+
     # period of your time series
-    startdate <<- as.Date(readline("What is first date of your data? format YYYY-MM-DD  "))
-    stopdate <<- as.Date(readline("What is last date of your data? format YYYY-MM-DD  "))
+    # Check if the date string is in correct format 
+ 
+    
+    startdate <<- as.Date(readline("What is first date of your data? Please provide the date in the format YYYY-MM-DD. Earliest date that is available is 2011-01-01 "))
+    stopdate <<- as.Date(readline("What is last date of your data?  Please provide the date in the format YYYY-MM-DD. The end date should be at least three years after your first date."))
   }
     
   if (area == "nas"){
+    # Define the allowed values
+    allowed_regions <- c("nearshore", "midshore", "offshore")
     station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
+  if (!(station_region %in% allowed_regions)) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Invalid region! \n area must be one of nearshore, midshore or offshore.
+             </div>')
+          station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
+    }
     station_code <<- "C1"
-    startdate <<- as.Date(readline("What is first date of your data? format YYYY-MM-DD  "))
-    stopdate <<- as.Date(readline("What is last date of your data? format YYYY-MM-DD  "))
+    startdate <<- as.Date(readline("What is first date of your data? Please provide the date in the format YYYY-MM-DD. Earliest date that is available is 2011-01-01 "))
+    stopdate <<- as.Date(readline("What is last date of your data?  Please provide the date in the format YYYY-MM-DD. The end date should be at least three years after your first date."))
     station_lat <<- 44.123 # coordinates station: latitude 
     station_lon <<- 12.57
     input_filename <<- readline("Please provide the name of your file containing the raw input (downloaded from EMODnet). For example Eutrophication_Med_timeseries_2024_unrestricted.txt  ")
-      
+    if (!file.exists(paste0("~/NPZD/Input data/",input_filename))) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: File not found! \n Please check the name and/or location of the file. The file should be located in the Input data folder.
+             </div>')
+    input_filename <<- readline("Please provide the name of your file containing the raw input (downloaded from EMODnet). For the northern Adriatic Sea example use Eutrophication_Med_timeseries_2024_unrestricted.txt  ")
+    }      
   }
     
   if (area == "other"){
+ # Define the allowed values
+    allowed_regions <- c("nearshore", "midshore", "offshore")
     station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
-    station_code <<- readline("What is the code of your station? For example 130 ")
-    startdate <<- as.Date(readline("What is first date of your data? format YYYY-MM-DD  "))
-    stopdate <<- as.Date(readline("What is last date of your data? format YYYY-MM-DD  "))
+  if (!(station_region %in% allowed_regions)) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Invalid region! \n area must be one of nearshore, midshore or offshore.
+             </div>')
+    station_region <<- readline("What is your region of interest? nearshore, midshore or offshore?  ")
+    }    
+    station_code <<- readline("What is the code of your station? For example for BPNS example it is 130 and for NAS example it is C1")
+    startdate <<- as.Date(readline("What is first date of your data? Please provide the date in the format YYYY-MM-DD. Earliest date that is available is 2011-01-01 "))
+    stopdate <<- as.Date(readline("What is last date of your data?  Please provide the date in the format YYYY-MM-DD. The end date should be at least three years after your first date.  "))
     station_lat <<- as.numeric(readline("Please provide coordinates for your station: Latitude:  ")) # coordinates station: latitude 
     station_lon <<- as.numeric(readline("Please provide coordinates for your station: Longitude:  ")) # coordinates station: longitude
-    input_filename <<- readline("Please provide the name of your file containing the raw input (downloaded from EMODnet). For example Eutrophication_Med_timeseries_2024_unrestricted.txt  ")
+    input_filename <<- readline("Please provide the name of your file containing the raw input (downloaded from EMODnet). For example, for the northern Adriatic Sea example it is Eutrophication_Med_timeseries_2024_unrestricted.txt  ")
+      if (!file.exists(paste0("~/NPZD/Input data/",input_filename))) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: File not found! \n Please check the name and/or location of the file. The file should be located in the Input data folder.
+             </div>')
+    input_filename <<- readline("Please provide the name of your file containing the raw input (downloaded from EMODnet). For example, for the northern Adriatic Sea example it is Eutrophication_Med_timeseries_2024_unrestricted.txt  ")
+    }  
   }
 
   # Nutrients sampling depth
@@ -64,12 +120,30 @@ get_needed_information <- function(){
     }
 
   # pco2atm and wind data for input
-    pco2atm_wind_file <<- readline("What is the name of your file containing pCO2atmosphere and wind data? For example 'bpns_pco2atm_windspeed.csv'")
+    pco2atm_wind_file <<- readline("What is the name of your file containing pCO2atmosphere and wind data? For example, for the BPNS example it is 'bpns_pco2atm_windspeed.csv'or for the NAS example it is 'nas_pco2atm_windspeed.csv'. If you use another region with your own data, please provide the name of your file.")
+    if (!file.exists(paste0("~/NPZD/Input data/",pco2atm_wind_file))) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: File not found! \n Please check the name and/or location of the file. The file should be located in the Input data folder.
+             </div>')
+    pco2atm_wind_file <<- readline("What is the name of your file containing pCO2atmosphere and wind data? For example, for the BPNS example it is 'bpns_pco2atm_windspeed.csv'or for the NAS example it is 'nas_pco2atm_windspeed.csv'. If you use another region with your own data, please provide the name of your file.")
+    }  
+                                         
   # carbon data for validation
   carbon_validation_available <<- readline("Do you have pCO2seawater data for validation? yes or no")
-
+if (!(carbon_validation_available %in% c('yes','no'))) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: value incorrect \n Please answer with yes or no.
+             </div>')
+  carbon_validation_available <<- readline("Do you have pCO2seawater data for validation? yes or no")
+    }  
   if (carbon_validation_available == "yes") {
-      carbon_validation_folder <<- readline("What is the name of your folder containing pCO2seawater data? For example 'pco2w_validation_bpns'")
+      carbon_validation_folder <<- readline("What is the name of your folder containing pCO2seawater data? For example for the BPNS example it is 'pco2w_validation_bpns'or for the NAS example it is'pco2w_validation_adriatic'. If you use another region with your own data, please provide the name of your folder")
+       if (!file.exists(paste0("~/NPZD/Input data/",carbon_validation_folder))) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Folder not found! \n Please check the name and/or location of the folder. The folder should be located in the Input data folder.
+             </div>')
+      carbon_validation_folder <<- readline("What is the name of your folder containing pCO2seawater data? For example for the BPNS example it is 'pco2w_validation_bpns'or for the NAS example it is'pco2w_validation_adriatic'. If you use another region with your own data, please provide the name of your folder")
+    }  
     } else {
         carbon_validation_folder <<- NA
         pco2w_validation[1,1 ] <<-  data.frame("Date" = NA, "pco2w" = NA)
@@ -78,6 +152,12 @@ get_needed_information <- function(){
 
 number_of_iterations <- function(){
   numSimulations <<- as.numeric(readline(prompt = "How many iterations do you want to run?"))
+    if (!is.numeric(numSimulations)) {
+      display_html('<div style="background-color:red;color:white;padding:10px;border-radius:5px;">
+            🚨 Warning: Number of simulations is not numeric! \n Please number of simulations.
+             </div>')
+  numSimulations <<- as.numeric(readline(prompt = "How many iterations do you want to run?"))
+    } 
 }
 
 gam_nutrients_input <- function(df,var,start,stop){
@@ -274,7 +354,7 @@ validation_data <-raw_input_vars %>%
   gam_input[[var]] <- df_gam[,var]
 }
 predictions <- as.data.frame(gam_input)
-predictions$station <- station_region
+predictions$station <- station_code
      
 }
 #Save predictions as csv

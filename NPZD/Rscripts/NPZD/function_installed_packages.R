@@ -18,7 +18,8 @@ not_installed <- setdiff(c("ggplot2",
                            "solrad",
                            "remotes",
                            "mgcv",
-                           "seacarb")
+                           "seacarb",
+                          "IRdisplay")
                          , rownames(installed.packages()))
 
 
@@ -55,7 +56,8 @@ load_all_packages <- function(){
                            "solrad",
                            "remotes",
                            "mgcv",
-                           "seacarb")
+                           "seacarb",
+                           "IRdisplay")
                          , rownames(installed.packages()))
 
 
@@ -81,7 +83,8 @@ if (length(not_installed) != 0 | length(not_installed_github) != 0){
                            "remotes",
                            "mgcv",
                            "lwdataexplorer",
-                           "seacarb")
+                           "seacarb",
+                           "IRdisplay")
 lapply(all_packages, require, character.only = TRUE)
 
 }
