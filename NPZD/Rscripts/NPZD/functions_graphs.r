@@ -152,11 +152,14 @@ graph_phyto_zoo <- function(){
     all_chla_zoo_1st_2nd_scale <- rbind(all_chla_1st_scale,all_zoo_2nd_scale)
     
     comparisonGrap_chla_zoo <<- ggplot() +
-      geom_line(data = all_chla, aes(x = as.Date(roundDate), y = log(Plankton+1)), linewidth = 1) + 
-      geom_line(data = all_zoo, aes(x = as.Date(roundDate), y = log(Plankton+1)*10),colour = 'grey', linewidth = 1, linetype = "dashed") + 
+      geom_line(data = all_chla, aes(x = as.Date(roundDate), y = log(Plankton+1), colour = 'Phytoplankton', linetype = "Phytoplankton"), linewidth = 1) + 
+      geom_line(data = all_zoo, aes(x = as.Date(roundDate), y = log(Plankton+1)*10,colour = 'Zooplankton', linetype = "Zooplankton"), linewidth = 1) + 
       scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
       scale_y_continuous(name = expression(paste("Chlorophyll a (log (mg Chla ", m^-3," + 1))")), sec.axis = sec_axis( trans=~./10, 
                           name=expression(paste("Zooplankton (log (mmol N ", m^-3," + 1))")))) +
+      scale_linetype_manual(values = c("Phytoplankton" = "solid", "Zooplankton" = "dashed") ) +
+      scale_colour_manual( values = c("Phytoplankton" = "black", "Zooplankton" = "grey")) +
+      guides(colour = guide_legend(title = ""), linetype = guide_legend(title = ""))+
       theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
       theme(legend.position = "bottom",legend.direction = "horizontal",legend.background = element_rect(),legend.title = element_blank(),
             legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
@@ -191,12 +194,17 @@ values_merged_zoo <- values_merged[which(values_merged$Type == "Zooplankton"),]
 
 # create plot
 comparisonGraphAvg_chla <<- ggplot() +
-  geom_line(data = all_chla, aes(x = as.Date(roundDate), y = log(Plankton+1)), linewidth = 1) + 
-  geom_ribbon(data = values_merged_chla, aes(x=as.Date(roundDate), ymin = log(Min+1), ymax = log(Max+1)), fill = 'black',  alpha = 0.15) +
-  geom_point(data=chla_obs_station, aes(x=as.Date(Time), y = log(Chlorophyll_a+1), alpha = 0.25)) +
+  geom_line(data = all_chla, aes(x = as.Date(roundDate), y = log(Plankton+1), linetype = "Phytoplankton", colour = "Phytoplankton"), linewidth = 1) + 
+  geom_ribbon(data = values_merged_chla, aes(x=as.Date(roundDate), ymin = log(Min+1), ymax = log(Max+1), fill = 'Phytoplankton'), alpha = 0.15) +
+  geom_point(data=chla_obs_station, aes(x=as.Date(Time), y = log(Chlorophyll_a+1), shape = "Observations")) +
   scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+  scale_linetype_manual(values = c("Phytoplankton" = "solid")) +
+  scale_colour_manual( values = c("Phytoplankton" = "black")) +
+  scale_fill_manual( values = c("Phytoplankton" = "black")) +
+  scale_shape_manual( values = c("Observations" = 16)) +
+  guides(colour = guide_legend(title = ""), linetype = guide_legend(title = ""), fill = guide_legend(title = ""), shape = guide_legend(title = ""))+
   theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
-  theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
+  theme(legend.position = "bottom",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
         legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
         axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
         axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
@@ -222,12 +230,17 @@ values_merged_zoo <- values_merged[which(values_merged$Type == "Zooplankton"),]
 
 if (!is.na(zoo_obs_station[1,1])){
 comparisonGraphAvg_zoo <<- ggplot() +
-  geom_line(data = all_zoo, aes(x = as.Date(roundDate), y = log(Plankton+1)), linewidth = 1) + 
-  geom_ribbon(data = values_merged_zoo, aes(x=as.Date(roundDate), ymin = log(Min+1), ymax = log(Max+1)),  alpha = 0.15) +
-  geom_point(data=zoo_obs_station, aes(x=as.Date(Date), y = log(zoo+1))) +
+  geom_line(data = all_zoo, aes(x = as.Date(roundDate), y = log(Plankton+1), linetype = "Zooplankton", colour = "Zooplankton"), linewidth = 1) + 
+  geom_ribbon(data = values_merged_zoo, aes(x=as.Date(roundDate), ymin = log(Min+1), ymax = log(Max+1), fill = 'Zooplankton'),  alpha = 0.15) +
+  geom_point(data=zoo_obs_station, aes(x=as.Date(Date), y = log(zoo+1), shape = "Observations")) +
   scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+  scale_linetype_manual(values = c("Zooplankton" = "solid")) +
+  scale_colour_manual( values = c("Zooplankton" = "black")) +
+  scale_fill_manual( values = c("Zooplankton" = "black")) +
+  scale_shape_manual( values = c("Observations" = 16)) +
+  guides(colour = guide_legend(title = ""), linetype = guide_legend(title = ""), fill = guide_legend(title = ""), shape = guide_legend(title = ""))+
   theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
-  theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
+  theme(legend.position = "bottom",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
         legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
         axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
         axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
@@ -237,7 +250,7 @@ comparisonGraphAvg_zoo <<- ggplot() +
   geom_line(data = all_zoo, aes(x = as.Date(roundDate), y = log(Plankton+1)), linewidth = 1) + 
   geom_ribbon(data = values_merged_zoo, aes(x=as.Date(roundDate), ymin = log(Min+1), ymax = log(Max+1)),  alpha = 0.15) +
   #geom_point(data=zoo_obs_station, aes(x=as.Date(Date), y = log(zoo+1))) +
-  scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+  scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0),limits = as.Date(c('2015-01-01','2024-12-31'))) +
   theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
   theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
         legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
@@ -289,7 +302,7 @@ comparisonGraph <- ggplot() +
     geom_ribbon(data = contributions_merged, aes(x=as.Date(Date), ymin = Min, ymax = Max),  alpha = 0.15) +
     ylim(0,0.5) +
     facet_wrap(vars(Type), scales = "free_y", labeller = labeller(Type =  my_labeller))+
-    scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+  scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0),limits = as.Date(c('2015-01-01','2024-12-31'))) +
     theme(text = element_text(size=7), axis.text.x=element_text(angle=90, hjust=1)) +
     theme(legend.position = "right",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=12),
  axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
@@ -327,22 +340,25 @@ detritus_graphs <- function(){
   
   
   # Create detritus plots  
-  graphs_detritus <- ggplot() +
-    geom_line(data = detritus_data, aes(x = as.Date(Date), y = avg_detritusc), linewidth = 1) + 
-    geom_ribbon(data = detritus_data, aes(x=as.Date(Date), ymin = min_detritusc, ymax = max_detritusc), fill = 'black',  alpha = 0.15) +
-    geom_line(data = detritus_data, aes(x = as.Date(Date), y = avg_detritus*50), linewidth = 1, colour = "blue") + 
-    geom_ribbon(data = detritus_data, aes(x=as.Date(Date), ymin = min_detritus*50, ymax = max_detritus*50), fill = 'blue',  alpha = 0.15) +
-    #geom_point(data=chla_obs_station, aes(x=as.Date(Time), y = log(Chlorophyll_a+1))) +
-    scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
-    scale_y_continuous(name = expression(paste("mg Carbon ", m^-3)), 
-                       sec.axis = sec_axis( trans=~./50, 
-                                            name=expression(paste("mg Nitrogen ", m^-3)))) +
+  graphs_detritus <<- ggplot() +
+    geom_line(data = detritus_data, aes(x = as.Date(Date), y = avg_detritusc, colour = "Carbon"), linewidth = 1) + 
+    geom_ribbon(data = detritus_data, aes(x=as.Date(Date), ymin = min_detritusc, ymax = max_detritusc, fill = 'Carbon'),  alpha = 0.15) +
+    geom_line(data = detritus_data, aes(x = as.Date(Date), y = avg_detritus*50, colour = "Nitrogen"), linewidth = 1) + 
+    geom_ribbon(data = detritus_data, aes(x=as.Date(Date), ymin = min_detritus*50, ymax = max_detritus*50, fill = 'Nitrogen'),  alpha = 0.15) +
+    scale_colour_manual( values = c("Carbon" = "black", "Nitrogen" = "blue")) +
+    scale_fill_manual( values = c("Carbon" = "black", "Nitrogen" = "blue")) +
+    guides(colour = guide_legend(title = ""), fill = guide_legend(title = ""))+
+#geom_point(data=chla_obs_station, aes(x=as.Date(Time), y = log(Chlorophyll_a+1))) +
+   scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+    scale_y_continuous(name = expression(paste("mmol Carbon ", m^-3)), limits = c(0,40),
+                       sec.axis = sec_axis( trans=~./40, 
+                                            name=expression(paste("mmol Nitrogen ", m^-3)))) +
     theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
-    theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
+    theme(legend.position = "bottom",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
           legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
           axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
           axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
-    labs(x = "Date", y = expression(paste("mg Carbon ", m^-3)))
+    labs(x = "Date", y = expression(paste("mmol Carbon ", m^-3)))
   
   return(graphs_detritus)
   
@@ -361,12 +377,18 @@ pco2w_graph <- function(){
   
   # Create pco2w plots  
   graphs_pco2w <- ggplot() +
-    geom_line(data = pco2w_data, aes(x = as.Date(Date), y = avg_pco2w), linewidth = 1) + 
-    geom_ribbon(data = pco2w_data, aes(x=as.Date(Date), ymin = min_pco2w, ymax = max_pco2w), fill = 'black',  alpha = 0.15) +
-    geom_point(data = pco2w_validation, aes(x=as.Date(Date), y = pco2w)) +
+    geom_line(data = pco2w_data, aes(x = as.Date(Date), y = avg_pco2w, linetype = "pCO2seawater", colour = "pCO2seawater"), linewidth = 1) + 
+    geom_ribbon(data = pco2w_data, aes(x=as.Date(Date), ymin = min_pco2w, ymax = max_pco2w, fill = "pCO2seawater"),  alpha = 0.15) +
+    geom_point(data = pco2w_validation, aes(x=as.Date(Date), y = pco2w, shape = "Observations")) +
     scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+    scale_y_continuous(name = "µatm", limits = c(0,1300)) +
+    scale_linetype_manual(values = c("pCO2seawater" = "solid")) +
+    scale_colour_manual( values = c("pCO2seawater" = "black")) +
+    scale_fill_manual( values = c("pCO2seawater" = "black")) +
+    scale_shape_manual( values = c("Observations" = 16)) +
+    guides(colour = guide_legend(title = ""), linetype = guide_legend(title = ""), fill = guide_legend(title = ""), shape = guide_legend(title = ""))+
     theme(text = element_text(size=10), axis.text.x=element_text(angle=90, hjust=1)) +
-    theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
+    theme(legend.position = "bottom",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
           legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
           axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
           axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
@@ -410,7 +432,6 @@ relative_contribution_graph <- function(type){
                                           "Zooplankton"))
 
   my_labeller <- as_labeller(c(DIN = 'DIN', PO4 = "PO[4]", SiO4 = "SiO[4]", PAR = "PAR", Temperature = "SST", Zooplankton = "Zooplankton~grazing"), default = label_parsed)
-  
 # Create the line graph
 if (type == 'line'|type == 'both'){
 relative_contribution_line <<- ggplot() +
@@ -418,12 +439,12 @@ relative_contribution_line <<- ggplot() +
     geom_ribbon(data = contributions_merged, aes(x=as.Date(Date), ymin = Min, ymax = Max),  alpha = 0.15) +
     ylim(0,0.5) +
     facet_wrap(vars(Type), scales = "free_y", labeller = labeller(Type =  my_labeller))+
-    scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
+  scale_x_date(date_breaks = "3 months", date_labels =  "%b %Y", expand = c(0, 0)) +
     theme(text = element_text(size=7), axis.text.x=element_text(angle=90, hjust=1)) +
     theme(legend.position = "right",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=12),
- axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
+ axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=12,face = 'bold'),
  axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
-    labs(x = "Date", y= "Averaged monthly relative contribution")
+    labs(x = "Date", y= "Monthly relative contribution")
 }
 # Create the boxplot graph
 if (type == 'boxplot'|type == 'both'){
@@ -433,8 +454,8 @@ relative_contribution_boxplot <<- ggplot() +
   theme(text = element_text(size=12), axis.text.x=element_text(angle=45, hjust=1)) +
   theme(legend.position = "none",legend.direction = "vertical",legend.background = element_rect(),legend.title = element_text(size=14,face = 'bold'),
         legend.text = element_text(size=12),legend.text.align = 0,axis.text.x = element_text(colour="black",size=11.5),
-        axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=16,face = 'bold'),
+        axis.text.y = element_text(colour="black",size=14), axis.title.x = element_text(colour="black",size=12,face = 'bold'),
         axis.title.y = element_text(colour="black",size=16,face = 'bold'), strip.text = element_text(size = 12))+
-  labs(x = "Region", y= "Averaged monthly relative Contribution") 
+  labs(x = "Region", y= "Monthly relative Contribution") 
 }
 }
