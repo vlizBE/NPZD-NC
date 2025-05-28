@@ -97,6 +97,11 @@ In case you have not already, please create an account for the Blue Cloud (<http
 A working folder is provided. This is done to structure the work and make sure that the model can find all the data it needs. By following this structure, fewer adjustments to directories are needed. Let's create additional folders in our working folder to store our output. The input data and R scripts should already be available in your home directory (*/home/jovyan/NPZD*) in your *NPZD* folder under *Input data* and *Rscripts*.
 
 ```{r,echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
+#######
+#  1  #
+#######
+options(warn = -1) # turns of unwanted warning messages, no action required on this line
+
 # set working directory
 wd =  "~/work/NPZD-NC/NPZD/"
 
@@ -160,7 +165,9 @@ load_all_packages()
 
 If you already have balanced the model, you can skip to section 3.3 after providing the 'needed' information and number of iterations below. If you are running the model for the first time, calibrating the model to your environmental settings is required and you start at section 3.1.
 
-Let's provide the information on our data, such as location, code of the station, region of the station or start- and stopdate of the observations where the samples were taken. This information is used throughout the manuscript, e.g. to extract observations, calibration and validation. 
+Let's provide the information on our data, such as location, code of the station, region of the station or start- and stopdate of the observations where the samples were taken. This information is used throughout the manuscript, e.g. to extract observations, calibration and validation.
+
+For two study area, i.e. the Belgian Part of the North Sea and the northern Adriatic Sea, all data are provided so you can explore the Jupyter Notebook without needing additional data.
 
 ```{r, echo=FALSE}
 # load function
