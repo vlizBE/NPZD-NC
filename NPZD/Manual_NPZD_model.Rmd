@@ -97,6 +97,11 @@ In case you have not already, please create an account for the Blue Cloud (<http
 A working folder is provided. This is done to structure the work and make sure that the model can find all the data it needs. By following this structure, fewer adjustments to directories are needed. Let's create additional folders in our working folder to store our output. The input data and R scripts should already be available in your home directory (*/home/jovyan/NPZD*) in your *NPZD* folder under *Input data* and *Rscripts*.
 
 ```{r,echo=FALSE,results=FALSE,warning=FALSE,message=FALSE}
+#######
+#  1  #
+#######
+options(warn = -1) # turns of unwanted warning messages, no action required on this line
+
 # set working directory
 wd =  "~/work/NPZD-NC/NPZD/"
 
